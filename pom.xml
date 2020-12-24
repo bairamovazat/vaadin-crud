@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.azat</groupId>
+    <artifactId>vaadin-crud</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.vaadin/flow -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>flow</artifactId>
+            <version>5.0.2</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.vaadin/flow-data -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>flow-data</artifactId>
+            <version>5.0.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-app-layout-flow -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-app-layout-flow</artifactId>
+            <version>18.0.3</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-ordered-layout-flow -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-ordered-layout-flow</artifactId>
+            <version>18.0.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-form-layout-flow -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-form-layout-flow</artifactId>
+            <version>18.0.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.16</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-dialog-flow -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-dialog-flow</artifactId>
+            <version>18.0.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-grid-flow -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-grid-flow</artifactId>
+            <version>18.0.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-text-field-flow -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-text-field-flow</artifactId>
+            <version>18.0.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-custom-field-flow -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-custom-field-flow</artifactId>
+            <version>18.0.3</version>
+        </dependency>
+    </dependencies>
+
+</project>
