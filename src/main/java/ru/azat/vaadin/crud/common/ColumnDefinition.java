@@ -34,6 +34,10 @@ public class ColumnDefinition<T, F> {
 
     private String columnName;
 
+    private boolean sortable;
+
+    private String sortProperty;
+
     @Builder.Default
     private boolean visible = true;
 

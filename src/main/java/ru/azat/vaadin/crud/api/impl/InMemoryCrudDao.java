@@ -15,13 +15,15 @@ public abstract class InMemoryCrudDao<T> implements CrudDao<T> {
 
     @Override
     public T create(T element) {
-        storage.add(element);
-        return element;
+        return update(element);
     }
 
     @Override
     public T update(T element) {
-        return create(element);
+        if(!storage.contains(element)) {
+            storage.add(element);
+        }
+        return element;
     }
 
     @Override

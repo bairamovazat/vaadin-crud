@@ -16,12 +16,11 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import lombok.Getter;
 import lombok.Setter;
 import ru.azat.vaadin.crud.api.CrudDao;
-import ru.azat.vaadin.crud.api.FilteringCrudDao;
+import ru.azat.vaadin.crud.api.FilteringAndSortingCrudDao;
 import ru.azat.vaadin.crud.api.Query;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -55,7 +54,7 @@ public class CrudGrid<T, F> extends Div {
 
     private HeaderRow filterRow;
 
-    public CrudGrid(CrudDao<T> crudDao,List<ColumnDefinition<T, F>> columnDefinitions,
+    public CrudGrid(CrudDao<T> crudDao, List<ColumnDefinition<T, F>> columnDefinitions,
                     Query<F> query) {
         this.columnDefinitions = columnDefinitions;
         this.customFilters = new ArrayList<>();
@@ -74,6 +73,7 @@ public class CrudGrid<T, F> extends Div {
     private void init(CrudDao<T> crudDao) {
         grid.setMultiSort(false);
         grid.setHeight("100%");
+        grid.setMultiSort(true);
         this.setWidth("100%");
         this.setHeight("100%");
         bindData(crudDao);
@@ -84,12 +84,16 @@ public class CrudGrid<T, F> extends Div {
         add(grid);
     }
 
+    void closeEditor() {
+        grid.getEditor().cancel();
+    }
+
     public void bindData(CrudDao<T> crudDao) {
         this.crudDao = crudDao;
-        if (crudDao instanceof FilteringCrudDao) {
+        if (crudDao instanceof FilteringAndSortingCrudDao) {
             CallbackDataProvider<T, Query<F>> provider = DataProvider.fromFilteringCallbacks(
-                    (q) -> ((FilteringCrudDao<T, F, Query<F>>) crudDao).load(q.getOffset(), q.getLimit(), q.getFilter()),
-                    q -> ((FilteringCrudDao<T, F, Query<F>>) crudDao).count(q.getFilter())
+                    (q) -> ((FilteringAndSortingCrudDao<T, F, Query<F>>) crudDao).load(q.getOffset(), q.getLimit(), q.getFilter(), q.getSortOrders()),
+                    q -> ((FilteringAndSortingCrudDao<T, F, Query<F>>) crudDao).count(q.getFilter())
             );
             filterDataProvider = provider.withConfigurableFilter();
             updateFilters();
@@ -119,6 +123,9 @@ public class CrudGrid<T, F> extends Div {
             column = grid.addColumn((e) -> columnDefinition.getGetter().apply(e))
                     .setHeader(columnDefinition.getColumnName());
 
+        }
+        if(columnDefinition.isSortable()) {
+            column.setSortProperty(columnDefinition.getSortProperty());
         }
 
         if(columnDefinition.getOrder() != null) {
