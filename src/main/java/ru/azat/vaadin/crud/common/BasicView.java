@@ -34,11 +34,11 @@ public abstract class BasicView extends AppLayout {
         logo.setHeight("40px");
         logo.getStyle().set("margin","0px");
         logo.getStyle().set("padding-bottom","20px");
+//
+//        Anchor logout = new Anchor("/logout", "Log out");
+//        logout.getStyle().set("padding-right","20px");
 
-        Anchor logout = new Anchor("/logout", "Log out");
-        logout.getStyle().set("padding-right","20px");
-
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(),logo, logout);
+        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(),logo);
         header.addClassName("header");
         header.setWidth("100%");
         header.expand(logo);

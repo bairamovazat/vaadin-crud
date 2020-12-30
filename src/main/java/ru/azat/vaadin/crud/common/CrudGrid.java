@@ -63,10 +63,28 @@ public class CrudGrid<T, F> extends Div {
     }
 
     public CrudGrid(CrudDao<T> crudDao, List<ColumnDefinition<T, F>> columnDefinitions,
+                    Query<F> query, boolean crudEnabled) {
+        this.columnDefinitions = columnDefinitions;
+        this.customFilters = new ArrayList<>();
+        this.query = query;
+        this.crudEnabled = crudEnabled;
+        init(crudDao);
+    }
+
+    public CrudGrid(CrudDao<T> crudDao, List<ColumnDefinition<T, F>> columnDefinitions,
                     List<Supplier<F>> customFilters, Query<F> query) {
         this.columnDefinitions = columnDefinitions;
         this.customFilters = customFilters;
         this.query = query;
+        init(crudDao);
+    }
+
+    public CrudGrid(CrudDao<T> crudDao, List<ColumnDefinition<T, F>> columnDefinitions,
+                    List<Supplier<F>> customFilters, Query<F> query, boolean crudEnabled) {
+        this.columnDefinitions = columnDefinitions;
+        this.customFilters = customFilters;
+        this.query = query;
+        this.crudEnabled = crudEnabled;
         init(crudDao);
     }
 
@@ -79,8 +97,10 @@ public class CrudGrid<T, F> extends Div {
         bindData(crudDao);
         createBinder();
         initColumns();
-        createEditButtons();
-        createContextMenu();
+        if (isCrudEnabled()) {
+            createEditButtons();
+            createContextMenu();
+        }
         add(grid);
     }
 
@@ -124,11 +144,11 @@ public class CrudGrid<T, F> extends Div {
                     .setHeader(columnDefinition.getColumnName());
 
         }
-        if(columnDefinition.isSortable()) {
+        if (columnDefinition.isSortable()) {
             column.setSortProperty(columnDefinition.getSortProperty());
         }
 
-        if(columnDefinition.getOrder() != null) {
+        if (columnDefinition.getOrder() != null) {
             column.setSortOrderProvider(direction -> Stream.of(columnDefinition.getOrder()));
         }
 
@@ -163,13 +183,13 @@ public class CrudGrid<T, F> extends Div {
 
         filterFunctions.forEach(filterFunction -> {
             F filter = filterFunction.get();
-            if(filter != null) {
+            if (filter != null) {
                 filterList.add(filter);
             }
         });
         customFilters.forEach(filterFunction -> {
             F filter = filterFunction.get();
-            if(filter != null) {
+            if (filter != null) {
                 filterList.add(filter);
             }
         });
@@ -233,17 +253,15 @@ public class CrudGrid<T, F> extends Div {
     }
 
     private void createContextMenu() {
-        if (isCrudEnabled()) {
-            GridContextMenu<T> contextMenu = new GridContextMenu<>(grid);
+        GridContextMenu<T> contextMenu = new GridContextMenu<>(grid);
 
-            contextMenu.addItem("Добавить", event -> createNewRow());
+        contextMenu.addItem("Добавить", event -> createNewRow());
 
-            contextMenu.addItem("Изменить",
-                    event -> event.getItem().ifPresent(this::editItem));
+        contextMenu.addItem("Изменить",
+                event -> event.getItem().ifPresent(this::editItem));
 
-            contextMenu.addItem("Удалить",
-                    event -> event.getItem().ifPresent(this::delete));
-        }
+        contextMenu.addItem("Удалить",
+                event -> event.getItem().ifPresent(this::delete));
     }
 
     private void editItem(T element) {
